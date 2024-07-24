@@ -19,3 +19,7 @@ tags:delete product and check
 ## Go to
 tags:Go to
 * Go to "https://www.amazon.com.tr/" address
+
+## Search product
+tags:Search product
+* Go to "https://www.amazon.com.tr/" address
