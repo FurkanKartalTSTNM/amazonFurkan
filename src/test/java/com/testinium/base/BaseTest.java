@@ -3,6 +3,7 @@ package com.testinium.base;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.testinium.driver.TestiniumSeleniumDriver;
 import com.testinium.model.ElementInfo;
 import com.thoughtworks.gauge.AfterScenario;
 import com.thoughtworks.gauge.BeforeScenario;
@@ -86,7 +87,7 @@ public class BaseTest {
                 capabilities.setCapability(ChromeOptions.CAPABILITY, options);
                 capabilities.setCapability("key", System.getenv("key"));
                 browserName = System.getenv("browser");
-                driver = new RemoteWebDriver(new URL("http://hub.testinium.io/wd/hub"), capabilities);
+                driver = new TestiniumSeleniumDriver(new URL("http://172.25.1.110:4444/wd/hub"), capabilities);
                 actions = new Actions(driver);
             }
         } catch (MalformedURLException e) {
