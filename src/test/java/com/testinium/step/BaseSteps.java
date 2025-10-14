@@ -12,6 +12,7 @@ import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.sql.Timestamp;
+import java.time.Duration;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
@@ -34,7 +35,7 @@ public class BaseSteps extends BaseTest {
 
     WebElement findElement(String key) {
         By infoParam = getElementInfoToBy(findElementInfoByKey(key));
-        WebDriverWait webDriverWait = new WebDriverWait(driver, 60);
+        WebDriverWait webDriverWait = new WebDriverWait(driver, Duration.ofSeconds(60));
         WebElement webElement = webDriverWait
                 .until(ExpectedConditions.presenceOfElementLocated(infoParam));
         ((JavascriptExecutor) driver).executeScript(
