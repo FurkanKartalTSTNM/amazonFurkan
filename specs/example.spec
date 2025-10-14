@@ -18,7 +18,7 @@ tags:delete product and check
 
 ## Go to
 tags:Go to
-* Wait "30" seconds
+* Wait "5" seconds
 * Go to "https://www.amazon.com.tr/" address
 
 ## Search product
