@@ -139,17 +139,19 @@ public class BaseTest {
      * @return the chrome options
      */
     public ChromeOptions chromeOptions() {
-        chromeOptions = new ChromeOptions();
-        capabilities = DesiredCapabilities.chrome();
-        Map<String, Object> prefs = new HashMap<String, Object>();
+        ChromeOptions options = new ChromeOptions();
+        Map<String, Object> prefs = new HashMap<>();
         prefs.put("profile.default_content_setting_values.notifications", 2);
-        chromeOptions.setExperimentalOption("prefs", prefs);
-        chromeOptions.addArguments("--kiosk");
-        chromeOptions.addArguments("--disable-notifications");
-        chromeOptions.addArguments("--start-fullscreen");
-        System.setProperty("webdriver.chrome.driver", "web_driver/chromedriver.exe");
-        chromeOptions.merge(capabilities);
-        return chromeOptions;
+        options.setExperimentalOption("prefs", prefs);
+
+        // W3C kapatma YOK; kaldırıldı
+        options.addArguments("--disable-notifications", "--start-fullscreen", "--kiosk");
+
+        // Testinium veya Grid'e özel capability gerekiyorsa Options üstünden ver:
+        // options.setCapability("testinium:key", System.getenv("key"));
+
+        // Selenium 4'te DesiredCapabilities.merge() kullanma; Options zaten Capability taşıyor.
+        return options;
     }
 
     /**
@@ -158,19 +160,18 @@ public class BaseTest {
      * @return the firefox options
      */
     public FirefoxOptions firefoxOptions() {
-        firefoxOptions = new FirefoxOptions();
-        capabilities = DesiredCapabilities.firefox();
-        Map<String, Object> prefs = new HashMap<>();
-        prefs.put("profile.default_content_setting_values.notifications", 2);
-        firefoxOptions.addArguments("--kiosk");
-        firefoxOptions.addArguments("--disable-notifications");
-        firefoxOptions.addArguments("--start-fullscreen");
+        FirefoxOptions options = new FirefoxOptions();
+
         FirefoxProfile profile = new FirefoxProfile();
-        capabilities.setCapability(FirefoxDriver.PROFILE, profile);
-        capabilities.setCapability("marionette", true);
-        firefoxOptions.merge(capabilities);
-        System.setProperty("webdriver.gecko.driver", "web_driver/geckodriver");
-        return firefoxOptions;
+        // profil ayarların varsa burada yap
+        options.setProfile(profile);                // <- ARTIK BÖYLE
+
+        options.addArguments("--kiosk", "--start-fullscreen", "--disable-notifications");
+
+        // Marionette flag'ini set etmene gerek yok; varsayılan marionette.
+        // options.setCapability("marionette", true); // gereksiz
+
+        return options;
     }
 
     public ElementInfo findElementInfoByKey(String key) {
