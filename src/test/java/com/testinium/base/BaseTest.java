@@ -26,6 +26,7 @@ import java.io.FileReader;
 import java.lang.reflect.Type;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.time.Duration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -53,48 +54,44 @@ public class BaseTest {
     public void setUp() {
         logger.info("************************************  BeforeScenario  ************************************");
         try {
-            if (StringUtils.isEmpty(System.getenv("key"))) {
-                logger.info("Local cihazda " + selectPlatform + " ortamında " + browserName + " browserında test ayağa kalkacak");
-                if ("win".equalsIgnoreCase(selectPlatform)) {
-                    if ("chrome".equalsIgnoreCase(browserName)) {
-                        driver = new ChromeDriver(chromeOptions());
-                        driver.manage().timeouts().pageLoadTimeout(60, TimeUnit.SECONDS);
-                    } else if ("firefox".equalsIgnoreCase(browserName)) {
-                        driver = new FirefoxDriver(firefoxOptions());
-                        driver.manage().timeouts().pageLoadTimeout(60, TimeUnit.SECONDS);
-                    }
-                } else if ("mac".equalsIgnoreCase(selectPlatform)) {
-                    if ("chrome".equalsIgnoreCase(browserName)) {
-                        driver = new ChromeDriver(chromeOptions());
-                        driver.manage().timeouts().pageLoadTimeout(60, TimeUnit.SECONDS);
-                    } else if ("firefox".equalsIgnoreCase(browserName)) {
-                        driver = new FirefoxDriver(firefoxOptions());
-                        driver.manage().timeouts().pageLoadTimeout(60, TimeUnit.SECONDS);
-                    }
-                    actions = new Actions(driver);
+            boolean isRemote = StringUtils.isNotBlank(System.getenv("key"));
+
+            if (!isRemote) {
+                logger.info("Local cihazda {} ortamında {} browserında test ayağa kalkacak",
+                        selectPlatform, browserName);
+
+                if ("chrome".equalsIgnoreCase(browserName)) {
+                    driver = new ChromeDriver(chromeOptions());
+                } else if ("firefox".equalsIgnoreCase(browserName)) {
+                    driver = new FirefoxDriver(firefoxOptions());
+                } else {
+                    throw new IllegalArgumentException("Unsupported browser: " + browserName);
                 }
 
             } else {
                 logger.info("************************************   Testiniumda test ayağa kalkacak   ************************************");
-                ChromeOptions options = new ChromeOptions();
-                capabilities = DesiredCapabilities.chrome();
-                options.setExperimentalOption("w3c", false);
-                options.addArguments("disable-translate");
-                options.addArguments("--disable-notifications");
-                options.addArguments("--start-fullscreen");
-                Map<String, Object> prefs = new HashMap<>();
-                options.setExperimentalOption("prefs", prefs);
-                capabilities.setCapability(ChromeOptions.CAPABILITY, options);
-                capabilities.setCapability("key", System.getenv("key"));
+                ChromeOptions options = chromeOptions();
+                // Testinium anahtarı gerekiyorsa Options üstünden ver:
+                String key = System.getenv("key");
+                if (StringUtils.isBlank(key)) {
+                    logger.warn("Environment variable 'key' is empty, proceeding without it");
+                } else {
+                    options.setCapability("testinium:key", key);
+                }
+
+                // İstersen browser'ı env'den oku
                 browserName = System.getenv("browser");
-                driver = new TestiniumSeleniumDriver(new URL("http://172.25.1.110:4444/wd/hub"), capabilities);
-                Thread.sleep(5000);
-                actions = new Actions(driver);
+
+                // RemoteWebDriver yerine kendi TestiniumSeleniumDriver'ını options ile başlat
+                driver = new TestiniumSeleniumDriver(new URL("http://172.25.1.110:4444/wd/hub"), options);
             }
+
+            // Selenium 4 timeout API
+            driver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(60));
+            actions = new Actions(driver);
+
         } catch (MalformedURLException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("Hub URL malformed", e);
         }
     }
 
