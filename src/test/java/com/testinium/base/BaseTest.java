@@ -88,10 +88,13 @@ public class BaseTest {
                 capabilities.setCapability("key", System.getenv("key"));
                 browserName = System.getenv("browser");
                 driver = new TestiniumSeleniumDriver(new URL("http://172.25.1.110:4444/wd/hub"), capabilities);
+                Thread.sleep(5000);
                 actions = new Actions(driver);
             }
         } catch (MalformedURLException e) {
             e.printStackTrace();
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
         }
     }
 
