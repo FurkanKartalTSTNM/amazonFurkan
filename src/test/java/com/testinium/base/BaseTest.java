@@ -5,6 +5,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.testinium.driver.TestiniumSeleniumDriver;
 import com.testinium.model.ElementInfo;
+import com.testinium.util.TestiniumEnvironment;
 import com.thoughtworks.gauge.AfterScenario;
 import com.thoughtworks.gauge.BeforeScenario;
 import org.openqa.selenium.WebDriver;
@@ -53,6 +54,7 @@ public class BaseTest {
     @BeforeScenario
     public void setUp() {
         logger.info("************************************  BeforeScenario  ************************************");
+        TestiniumEnvironment.init();
         try {
             boolean isRemote = StringUtils.isNotBlank(System.getenv("key"));
 
