@@ -92,8 +92,6 @@ public class BaseTest {
             driver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(60));
             actions = new Actions(driver);
 
-        } catch (MalformedURLException e) {
-            throw new RuntimeException("Hub URL malformed", e);
         }
     }
 
