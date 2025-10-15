@@ -26,8 +26,8 @@ tags:Search product
 * Go to "https://www.amazon.com.tr/" address
 
 
-##Simple Scenario
-tags:simple scenario
+## Simple Scenario
+tags:simplescenario
 * Go to "https://www.amazon.com.tr/" address
 * Wait "2" seconds
 * Check current URL is "https://www.amazon.com.tr/"
