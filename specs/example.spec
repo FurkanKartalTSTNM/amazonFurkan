@@ -24,3 +24,23 @@ tags:Go to
 ## Search product
 tags:Search product
 * Go to "https://www.amazon.com.tr/" address
+
+
+##Simple Scenario
+tags:simple scenario
+* Go to "https://www.amazon.com.tr/" address
+* Wait "2" seconds
+* Check current URL is "https://www.amazon.com.tr/"
+* Check element "baseTitle" is visible
+* Click to element "baseTitle"
+* Wait "2" seconds
+* Check element "Bilgisayar" is visible
+* Click to element "Bilgisayar"
+* Wait "2" seconds
+* Check element "baseTitle" is visible
+* Click to element "baseTitle"
+* Wait "2" seconds
+* Check element "hamburgerManu" is visible
+* Click to element "hamburgerManu"
+* Wait "2" seconds
+

@@ -54,6 +54,22 @@
     "key": "checkbasketwarning",
     "value": "//h1[contains(text(),\"Sepete Eklendi\")]",
     "type": "xpath"
+  },
+
+  {
+    "key": "baseTitle",
+    "value": "nav-logo-sprites",
+    "type": "id"
+  },
+  {
+    "key": "hamburgerManu",
+    "value": "nav-hamburger-menu",
+    "type": "id"
+  },
+  {
+    "key": "Bilgisayar",
+    "value": "//a[text()=\"Bilgisayar\"]",
+    "type": "xpath"
   }
 
 ]

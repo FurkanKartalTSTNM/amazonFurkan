@@ -835,6 +835,24 @@ public class BaseSteps extends BaseTest {
         elements.get(index).click();
     }
 
+    @Step({"Check current URL is <expectedUrl>",
+            "Şuanki URL <expectedUrl> mi kontrol et"})
+    public void checkCurrentUrlIs(String expectedUrl) {
+        String actualUrl = driver.getCurrentUrl();
+        assertTrue(expectedUrl.equals(actualUrl), "Current URL is not " + expectedUrl + ". Actual: " + actualUrl);
+        logger.info("Current URL is " + expectedUrl);
+    }
+
+    @Step({"Check element <key> is visible",
+            "Element <key> görünür mü kontrol et"})
+    public void checkElementIsVisible(String key) {
+        assertTrue(isDisplayed(findElement(key)), "Element is not visible");
+        logger.info(key + " element is visible");
+
+    }
+
+
+
 }
 
 
