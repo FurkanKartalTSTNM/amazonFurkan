@@ -54,7 +54,6 @@ public class BaseTest {
     @BeforeScenario
     public void setUp() {
         logger.info("************************************  BeforeScenario  ************************************");
-        TestiniumEnvironment.init();
         try {
             boolean isRemote = StringUtils.isNotBlank(System.getenv("key"));
 
