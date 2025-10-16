@@ -87,7 +87,7 @@
         <dependency>
             <groupId>com.testinium</groupId>
             <artifactId>testinium-selenium4-driver</artifactId>
-            <version>0.0.0.14-SNAPSHOT</version>
+            <version>0.0.0.15-SNAPSHOT</version>
         </dependency>
 
     </dependencies>
